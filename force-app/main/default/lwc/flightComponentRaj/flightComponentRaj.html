@@ -1,3 +1,107 @@
 <template>
-    
+    <lightning-card>
+        <!--Header showing name, icon and add button for current object/record-->
+        <div slot="title" class="slds-page-header__row">
+            <!--Object Icon-->
+            <lightning-icon size="Large" icon-name="custom:custom20"></lightning-icon>
+            <h1 class="slds-var-m-left_small">
+                <!--Object Name-->
+                <span style="font-size: large; font-weight: lighter">Flights</span>
+                <!--if a record is selected, show that record's name else show 'All'-->
+                <template if:true={selectedRecordName}>
+                    <span class="slds-page-header__title slds-truncate" title={selectedRecordName}>{selectedRecordName}</span>
+                </template>
+                <template if:false={selectedRecordName}>
+                    <span class="slds-page-header__title slds-truncate" title="All">All</span>
+                </template>
+            </h1>
+        </div>
+
+        <!--Buttons to handle adding & deleting selected record-->
+        <lightning-button-group slot="actions">
+            <lightning-button label="New"  onclick={handleAdd}></lightning-button>
+            <template if:true={selectedRecordName}>
+                <lightning-button label="Delete"  onclick={handleDelete}></lightning-button>
+            </template>
+        </lightning-button-group>
+    </lightning-card>
+
+    <!--Body showing records names and its details-->
+    <div class="slds-grid slds-gutters_x-small slds-var-m-top_small">
+        <!--Record name column-->
+        <div class="slds-col  slds-size_1-of-3">
+            <div class="slds-box">
+                <!--recordList contains all the records of this object-->
+                <template if:true={recordList}>
+                    <div style="width: 100%;">
+                        <!--Vertical navigation showing records names-->
+                        <lightning-vertical-navigation onselect={handleSelect}>
+                            <lightning-vertical-navigation-section>
+                                <!--show each record's name(or some other field) for user to navigate through-->
+                                <template for:each={recordList.data} for:item="recordItem">
+                                    <div key={recordItem.Id}>
+                                        <lightning-vertical-navigation-item label={recordItem.Name} name={recordItem.Id}></lightning-vertical-navigation-item>
+                                    </div>
+                                </template>
+                            </lightning-vertical-navigation-section>
+                        </lightning-vertical-navigation>
+                    </div>
+                </template>
+
+                <!--If recordList is empty(no records for this object), show no data illustration-->
+                <template if:false={recordList}>
+                    <div class="illustration-component">
+                        <!--Pass customized error message-->
+                        <c-no-data-illustration no-data-message="No Flights are Available"></c-no-data-illustration>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!--Record details column-->
+        <div class="slds-col slds-size_2-of-3">
+            <div class="slds-box">
+                <!--If a record is selected, show its details,
+                    pass appropiate API name in object-api-name field
+                -->
+                <template if:true={selectedRecordId}>
+                    <div class="recordDetailsComponent">
+                        <lightning-record-form
+                            record-id={selectedRecordId}
+                            object-api-name="Flight__c"
+                            layout-type="Full"
+                            mode="view"
+                        >
+                        </lightning-record-form>
+                    </div>
+                </template>
+
+                <!--If no records are selected-->
+                <template if:false={selectedRecordId}>
+                    <!--Check if Add button was clicked-->
+                    <template if:true={selectedAddRecord}>
+                        <!--Show form to add new record, pass appropiate object-api-name-->
+                        <div class="recordDetailsComponent">
+                            <lightning-record-form
+                                object-api-name="Flight__c"
+                                layout-type="Full"
+                                mode="edit"
+                                oncancel={handleAddCancel}
+                                onsuccess={handleAddSuccess}
+                            >
+                            </lightning-record-form>
+                        </div>
+                    </template>
+
+                    <!--Else show no data illustration-->
+                    <template if:false={selectedAddRecord}>
+                        <div class="illustration-component">
+                            <!--Pass customized error message-->
+                            <c-no-data-illustration no-data-message="Select a Flight to View Details"></c-no-data-illustration>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </div>
 </template>

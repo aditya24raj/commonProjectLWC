@@ -21,13 +21,14 @@
         <lightning-button-group slot="actions">
             <lightning-button label="New"  onclick={handleAdd}></lightning-button>
             <template if:true={selectedRecordName}>
+                <lightning-button label="Edit"  onclick={handleEdit}></lightning-button>
                 <lightning-button label="Delete"  onclick={handleDelete}></lightning-button>
             </template>
         </lightning-button-group>
     </lightning-card>
 
     <!--Body showing records names and its details-->
-    <div class="slds-grid slds-gutters_x-small slds-var-m-top_small">
+    <div class="slds-grid slds-gutters_x-small slds-var-m-top_medium">
         <!--Record name column-->
         <div class="slds-col  slds-size_1-of-3">
             <div class="slds-box">
@@ -52,7 +53,7 @@
                 <template if:false={recordList}>
                     <div class="illustration-component">
                         <!--Pass customized error message-->
-                        <c-no-data-illustration no-data-message="No Airports Available"></c-no-data-illustration>
+                        <c-no-data-illustration no-data-message="No Airports are Available"></c-no-data-illustration>
                     </div>
                 </template>
             </div>
@@ -61,43 +62,54 @@
         <!--Record details column-->
         <div class="slds-col slds-size_2-of-3">
             <div class="slds-box">
-                <!--If a record is selected, show its details,
-                    pass appropiate API name in object-api-name field
+                <!--
+                    if isView -> view details
+                    if isEdit -> edit details
+                    add new record -> edit details without any default values
                 -->
-                <template if:true={selectedRecordId}>
-                    <div class="recordDetailsComponent">
-                        <lightning-record-form
-                            record-id={selectedRecordId}
-                            object-api-name="Airport__c"
-                            layout-type="Full"
-                            mode="view"
-                        >
-                        </lightning-record-form>
+
+                <!--view-->
+                <template if:true={isView}>
+                    <!--view title-->
+                    <span style="font-size:larger; font-weight:bold">Details</span>
+                    <!--All available fields-->
+                    <div class="slds-grid slds-gutters_x-small recordDetailsComponent">
+                        <!--Name field-->
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small" title="Email">City</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                {recordDetails.Name} <lightning-button-icon class="slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                            </div>
+                            <hr style="margin-top:auto">
+                        </div>  
                     </div>
                 </template>
 
-                <!--If no records are selected-->
-                <template if:false={selectedRecordId}>
-                    <!--Check if Add button was clicked-->
-                    <template if:true={selectedAddRecord}>
-                        <!--Show form to add new record, pass appropiate object-api-name-->
-                        <div class="recordDetailsComponent">
-                            <lightning-record-form
-                                object-api-name="Airport__c"
-                                layout-type="Full"
-                                mode="edit"
-                                oncancel={handleAddCancel}
-                                onsuccess={handleAddSuccess}
-                            >
-                            </lightning-record-form>
-                        </div>
-                    </template>
+                <!--Edit-->
+                <template if:true={isEdit}>
+                    <!--Edit Details-->
+                    <span style="font-size:larger; font-weight:bold">Edit Details</span>
+                    <!--cancel and save icon button-->
+                    <div class="slds-float_right">
+                        <lightning-button-icon class="slds-m-left_x-small" variant="brand" icon-name="utility:close" onclick={handleEditCancel}></lightning-button-icon>
+                        <lightning-button-icon class="slds-m-left_x-small" variant="brand" icon-name="utility:check" onclick={handleEditSave}></lightning-button-icon>    
+                    </div>
 
-                    <!--Else show no data illustration-->
-                    <template if:false={selectedAddRecord}>
+                    <!--Fields for editing-->
+                    <div class="slds-grid slds-gutters_x-small recordDetailsComponent">
+                        <!--Name field-->
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="text" label="City" value={editableNameField} placeholder="Enter airport city" required onchange={editableNameFieldOnChange}></lightning-input>
+                        </div>
+                    </div>
+                </template>
+
+                <!--Neither view nor edit selected; show no data illustration-->
+                <template if:false={isView}>
+                    <template if:false={isEdit}>
                         <div class="illustration-component">
                             <!--Pass customized error message-->
-                            <c-no-data-illustration no-data-message="Select an Airport to View Details"></c-no-data-illustration>
+                            <c-no-data-illustration no-data-message="Select an Airport to View/Edit Details"></c-no-data-illustration>
                         </div>
                     </template>
                 </template>

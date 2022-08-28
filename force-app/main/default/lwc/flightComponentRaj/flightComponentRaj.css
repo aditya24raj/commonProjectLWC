@@ -14,3 +14,12 @@
 .recordDetailsComponent {
     margin-top: 15px;
 }
+
+.myInputField {
+    min-height: 76px;
+    margin-bottom: 3px;
+}   
+
+.pencilIcon {
+    margin-top: -5px;
+}

@@ -1,0 +1,217 @@
+<template>
+    <lightning-card>
+        <!--Header showing name, icon and add button for current object/record-->
+        <div slot="title" class="slds-page-header__row">
+            <!--Object Icon-->
+            <lightning-icon size="Large" icon-name="custom:custom20"></lightning-icon>
+            <h1 class="slds-var-m-left_small">
+                <!--Object Name-->
+                <span style="font-size: large; font-weight: lighter">Flights</span>
+                <!--if a record is selected, show that record's name else show 'All'-->
+                <template if:true={selectedRecordName}>
+                    <span class="slds-page-header__title slds-truncate" title={selectedRecordName}>{selectedRecordName}</span>
+                </template>
+                <template if:false={selectedRecordName}>
+                    <span class="slds-page-header__title slds-truncate" title="All">All</span>
+                </template>
+            </h1>
+        </div>
+
+        <!--Buttons to handle adding & deleting selected record-->
+        <lightning-button-group slot="actions">
+            <lightning-button label="New"  onclick={handleAdd}></lightning-button>
+            <template if:true={selectedRecordName}>
+                <lightning-button label="Edit"  onclick={handleEdit}></lightning-button>
+                <lightning-button label="Delete"  onclick={handleDelete}></lightning-button>
+            </template>
+        </lightning-button-group>
+    </lightning-card>
+
+    <!--Body showing records names and its details-->
+    <div class="slds-grid slds-gutters_x-small slds-var-m-top_medium">
+        <!--Record name column-->
+        <div class="slds-col  slds-size_1-of-3">
+            <div class="slds-box">
+                <!--recordList contains all the records of this object-->
+                <template if:true={recordList}>
+                    <div style="width: 100%;">
+                        <!--Vertical navigation showing records names-->
+                        <lightning-vertical-navigation onselect={handleSelect}>
+                            <lightning-vertical-navigation-section>
+                                <!--show each record's name(or some other field) for user to navigate through-->
+                                <template for:each={recordList.data} for:item="recordItem">
+                                    <div key={recordItem.Id}>
+                                        <lightning-vertical-navigation-item label={recordItem.Name} name={recordItem.Id}></lightning-vertical-navigation-item>
+                                    </div>
+                                </template>
+                            </lightning-vertical-navigation-section>
+                        </lightning-vertical-navigation>
+                    </div>
+                </template>
+
+                <!--If recordList is empty(no records for this object), show no data illustration-->
+                <template if:false={recordList}>
+                    <div class="illustration-component">
+                        <!--Pass customized error message-->
+                        <c-no-data-illustration no-data-message="No Flights are Available"></c-no-data-illustration>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!--Record details column-->
+        <div class="slds-col slds-size_2-of-3">
+            <div class="slds-box" style="padding: 20px">
+                <!--
+                    if isView -> view details
+                    if isEdit -> edit details
+                    add new record -> edit details without any default values
+                -->
+
+                <!--view-->
+                <template if:true={isView}>
+                    <!--view title-->
+                    <span style="font-size:larger; font-weight:bold">Details</span>
+                    <!--All available fields-->
+                    <div class="slds-grid slds-gutters_small recordDetailsComponent">
+                        <!--first column-->
+                        <div class="slds-col slds-size_1-of-2">
+                            <!--Name-->
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Flight Number</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                {recordDetails.Name}
+                            </div>
+                            <hr style="margin-top:auto">
+
+                            <!--Onboarding From-->
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Onboarding From</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                {recordDetails.Onboarding_From__r.Name} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                            </div>
+                            <hr style="margin-top:auto">
+
+                            <!--Onboarding Time-->
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Onboarding Time</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                <lightning-formatted-date-time value={recordDetails.Depart_Time__c} hour="2-digit" minute="2-digit" time-zone="UTC"></lightning-formatted-date-time>
+                                <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                            </div>
+                            <hr style="margin-top:auto">
+
+                             <!--Duration-->
+                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Duration</div>
+                             <div class="slds-truncate slds-var-m-bottom_x-small">
+                                 {recordDetails.Duration__c}
+                             </div>
+                             <hr style="margin-top:auto">
+
+                        </div>
+
+                        <!--Second column-->
+                        <div class="slds-col slds-size_1-of-2">
+                            <!--Status-->
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Status</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                {recordDetails.Flight_Status__c} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                            </div>
+                            <hr style="margin-top:auto">
+
+                            <!--arriving to-->
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Arriving To</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                {recordDetails.Arriving_To__r.Name} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                            </div>
+                            <hr style="margin-top:auto">
+
+                            <!--Arrival Time-->
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Arrival Time</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small">
+                                <lightning-formatted-date-time value={recordDetails.Arrival_Time__c} hour="2-digit" minute="2-digit" time-zone="UTC"></lightning-formatted-date-time>
+                                <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                            </div>
+                            <hr style="margin-top:auto">
+                        </div>
+                    </div>
+                </template>
+
+                <!--Edit-->
+                <template if:true={isEdit}>
+                    <!--Edit Details-->
+                    <span style="font-size:larger; font-weight:bold">Edit Details</span>
+                    <!--cancel and save icon button-->
+                    <div class="slds-float_right">
+                        <lightning-button-icon style="margin-top: -15px" class="slds-m-left_x-small" variant="brand" icon-name="utility:close" onclick={handleEditCancel}></lightning-button-icon>
+                        <lightning-button-icon style="margin-top: -15px" class="slds-m-left_x-small" variant="brand" icon-name="utility:check" onclick={handleEditSave}></lightning-button-icon>    
+                    </div>
+
+                    <!--All available fields-->
+                    <div class="slds-grid slds-gutters_small recordDetailsComponent">
+                        <!--first column-->
+                        <div class="slds-col slds-size_1-of-2">
+                            <!--Name-->
+                            <lightning-input class="myInputField" type="text" label="Flight Number" value={readableFlightNumber} disabled></lightning-input>
+
+                            <!--Onboarding From-->
+                            <lightning-combobox
+                                    class="myInputField"
+                                    name="OnboardingFrom"
+                                    label="Onboarding From"
+                                    value={selectedOnboardingFrom}
+                                    placeholder="Select an Airport"
+                                    options={editableOnboardingFrom}
+                                    onchange={editableOnboardingFromOnChange}
+                                    required
+                            ></lightning-combobox>
+
+                            <!--Onboarding Time-->
+                            <lightning-input class="myInputField" type="time" name="oboardingTime" label="Onboarding Time" required value={editableOnboardingTime} onchange={editableOnboardingTimeOnChange} placeholder="Enter Onboarding Time"></lightning-input>
+
+                            <!--Duration-->
+                            <lightning-input class="myInputField" type="text" label="Duration" value={readableDuration} disabled></lightning-input>
+                        </div>
+
+                        <!--Second column-->
+                        <div class="slds-col slds-size_1-of-2">
+                            <!--Status-->
+                            <lightning-combobox
+                                    class="myInputField"
+                                    name="status"
+                                    label="Status"
+                                    value={selectedStatus}
+                                    placeholder="Assign a Status"
+                                    options={editableStatus}
+                                    onchange={editableStatusOnChange}
+                                    required
+                            ></lightning-combobox>
+
+                            <!--arriving to-->
+                            <lightning-combobox
+                                    class="myInputField"
+                                    name="ArrivingTo"
+                                    label="Arriving To"
+                                    value={selectedArrivingTo}
+                                    placeholder="Select an Airport"
+                                    options={editableArrivingTo}
+                                    onchange={editableArrivingToOnChange}
+                                    required
+                            ></lightning-combobox>
+
+                            <!--Arrival Time-->
+                            <lightning-input class="myInputField" type="time" name="arrivingTime" label="Arriving Time" required value={editableArrivingTime} onchange={editableArrivingTimeOnChange} placeholder="Enter Arriving Time"></lightning-input>
+                        </div>
+                    </div>
+                </template>
+
+                <!--Neither view nor edit selected; show no data illustration-->
+                <template if:false={isView}>
+                    <template if:false={isEdit}>
+                        <div class="illustration-component">
+                            <!--Pass customized error message-->
+                            <c-no-data-illustration no-data-message="Select a Flight to View/Edit Details"></c-no-data-illustration>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

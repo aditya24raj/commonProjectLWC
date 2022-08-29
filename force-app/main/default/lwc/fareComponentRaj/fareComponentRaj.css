@@ -1,0 +1,26 @@
+.slds-box {
+    background-color: white;
+    min-height: 550px;
+    max-height: 550px;
+}
+
+.illustration-component {
+    max-width: 400px;
+    max-height: 238px;
+    margin: 200px auto auto auto;
+
+
+}
+
+.recordDetailsComponent {
+    margin-top: 15px;
+}
+
+.myInputField {
+    min-height: 76px;
+    margin-bottom: 3px;
+}   
+
+.pencilIcon {
+    margin-top: -5px;
+}

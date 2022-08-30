@@ -3,15 +3,15 @@ import { refreshApex } from '@salesforce/apex';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-import fetchAllRecords from '@salesforce/apex/BookingController.fetchAllRecords';
-import fetchThisRecord from '@salesforce/apex/BookingController.fetchThisRecord';
+import fetchAllRecords from '@salesforce/apex/CancelledBookingController.fetchAllRecords';
+import fetchThisRecord from '@salesforce/apex/CancelledBookingController.fetchThisRecord';
 import fetchAllAirports from '@salesforce/apex/airportControllerRaj.fetchAllRecords';
-import fetchFlights from '@salesforce/apex/BookingController.fetchFlights';
-import fetchFares from '@salesforce/apex/BookingController.fetchFares';
-import upsertRecord from '@salesforce/apex/BookingController.upsertRecord'
-import cancelRecord from '@salesforce/apex/BookingController.cancelRecord';
+import fetchFlights from '@salesforce/apex/CancelledBookingController.fetchFlights';
+import fetchFares from '@salesforce/apex/CancelledBookingController.fetchFares';
+import upsertRecord from '@salesforce/apex/CancelledBookingController.upsertRecord'
+import cancelRecord from '@salesforce/apex/CancelledBookingController.cancelRecord';
 
-export default class BookingComponentRaj extends LightningElement {
+export default class CancelledBookingComponentRaj extends LightningElement {
     // Boolean to store whether any record was clicked in vertical navigation menu
     isView;
     // Boolean to store whether edit button was clicked or not
@@ -476,7 +476,7 @@ export default class BookingComponentRaj extends LightningElement {
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success',
-                        message: `Go to Cancelled Bookings Tab to View Cancelled Bookings`,
+                        message: ``,
                         variant: 'success'
                     })
                 );

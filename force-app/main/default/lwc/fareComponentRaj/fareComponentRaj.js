@@ -247,10 +247,6 @@ export default class FareComponentRaj extends LightningElement {
             });
     }
 
-
-
-
-
     handleDelete() {
         //User clicked on delete button
         //User this standard function to delete records
@@ -288,12 +284,5 @@ export default class FareComponentRaj extends LightningElement {
                     })
                 );
             });
-    }
-    
-
-
-
-
-
-    
+    }   
 }

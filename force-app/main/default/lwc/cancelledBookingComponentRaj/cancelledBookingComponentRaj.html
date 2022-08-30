@@ -6,7 +6,7 @@
             <lightning-icon size="Large" icon-name="standard:asset_object"></lightning-icon>
             <h1 class="slds-var-m-left_small">
                 <!--Object Name-->
-                <span style="font-size: large; font-weight: lighter">Confirmed Bookings</span>
+                <span style="font-size: large; font-weight: lighter">Cancelled Bookings</span>
                 <!--if a record is selected, show that record's name else show 'All'-->
                 <template if:true={selectedRecordName}>
                     <span class="slds-page-header__title slds-truncate" title={selectedRecordName}>{selectedRecordName}</span>
@@ -19,11 +19,7 @@
 
         <!--Buttons to handle adding & deleting selected record-->
         <lightning-button-group slot="actions">
-            <lightning-button label="New"  onclick={handleAdd}></lightning-button>
-            <template if:true={selectedRecordName}>
-                <lightning-button label="Edit"  onclick={handleEdit}></lightning-button>
-                <lightning-button label="Cancel"  onclick={handleCancelBooking}></lightning-button>
-            </template>
+            
         </lightning-button-group>
     </lightning-card>
 
@@ -86,35 +82,35 @@
                             <!--Onboarding From-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Onboarding From</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Onboarding_From__r.Name} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Onboarding_From__r.Name}
                             </div>
                             <hr style="margin-top:auto">
 
                             <!--Flight-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Flight</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Flight_Name__r.Name} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Flight_Name__r.Name}
                             </div>
                             <hr style="margin-top:auto">
 
                             <!--Passenger Name-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Passenger Name</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Passenger_Name__c} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Passenger_Name__c}
                             </div>
                             <hr style="margin-top:auto">
 
                             <!--Passenger Type-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Passenger Type</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Passenger_Type__c} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Passenger_Type__c}
                             </div>
                             <hr style="margin-top:auto">
 
                             <!--Fare Type-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Fare Type</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Fare_Type__r.Name} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Fare_Type__r.Name}
                             </div>
                             <hr style="margin-top:auto">
 
@@ -138,7 +134,7 @@
                             <!--arriving to-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Arriving To</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Arriving_To__r.Name} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Arriving_To__r.Name}
                             </div>
                             <hr style="margin-top:auto">
 
@@ -154,21 +150,20 @@
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Passenger Email</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
                                 {recordDetails.Passenger_Email__c}
-                                <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
                             </div>
                             <hr style="margin-top:auto">
 
                             <!--Preferred Food-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Preferred Food</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Food_Type__c} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Food_Type__c}
                             </div>
                             <hr style="margin-top:auto">
                             
                             <!--Preferred Payment Method-->
                             <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small">Preferred Payment Method</div>
                             <div class="slds-truncate slds-var-m-bottom_x-small">
-                                {recordDetails.Payment_Mode__c} <lightning-button-icon class="pencilIcon slds-float_right" size="small" variant="container" icon-name="utility:edit" onclick={handleEdit}></lightning-button-icon>
+                                {recordDetails.Payment_Mode__c}
                             </div>
                             <hr style="margin-top:auto">
                             

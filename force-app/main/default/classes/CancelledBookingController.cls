@@ -1,9 +1,8 @@
-public with sharing class BookingController {
-    
+public with sharing class CancelledBookingController {
     @AuraEnabled(cacheable=true)
     public static List<Booking__c> fetchAllRecords(){
         try {
-            return [SELECT Name FROM Booking__c WHERE Booking_status__c='Confirmed' ORDER BY Name];
+            return [SELECT Name FROM Booking__c WHERE Booking_status__c='Cancelled' ORDER BY Name];
             
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -90,6 +89,4 @@ public with sharing class BookingController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
-
 }

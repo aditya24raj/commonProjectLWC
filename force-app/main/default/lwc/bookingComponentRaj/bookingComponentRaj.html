@@ -3,7 +3,7 @@
         <!--Header showing name, icon and add button for current object/record-->
         <div slot="title" class="slds-page-header__row">
             <!--Object Icon-->
-            <lightning-icon size="Large" icon-name="standard:asset_object"></lightning-icon>
+            <lightning-icon size="Large" icon-name="standard:asset_warranty"></lightning-icon>
             <h1 class="slds-var-m-left_small">
                 <!--Object Name-->
                 <span style="font-size: large; font-weight: lighter">Confirmed Bookings</span>
@@ -20,8 +20,10 @@
         <!--Buttons to handle adding & deleting selected record-->
         <lightning-button-group slot="actions">
             <lightning-button label="New"  onclick={handleAdd}></lightning-button>
+            <!--lightning-button label="New1" onclick={handleAdd1}></lightning-button-->
             <template if:true={selectedRecordName}>
                 <lightning-button label="Edit"  onclick={handleEdit}></lightning-button>
+                <lightning-button label="Print"  onclick={handlePrint}></lightning-button>
                 <lightning-button label="Cancel"  onclick={handleCancelBooking}></lightning-button>
             </template>
         </lightning-button-group>

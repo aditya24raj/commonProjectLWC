@@ -494,6 +494,11 @@ export default class CancelledBookingComponentRaj extends LightningElement {
             });
 
     }
+
+    handlePrint() {
+        console.log("inside print");
+        window.open(`https://mirketa-12c-dev-ed.my.salesforce.com/${this.selectedRecordId}/p`, '_blank').focus();
+    }
     
     handleDelete() {
         //User clicked on delete button

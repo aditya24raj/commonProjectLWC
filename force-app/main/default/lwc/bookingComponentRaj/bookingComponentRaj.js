@@ -12,6 +12,17 @@ import upsertRecord from '@salesforce/apex/BookingController.upsertRecord'
 import cancelRecord from '@salesforce/apex/BookingController.cancelRecord';
 
 export default class BookingComponentRaj extends LightningElement {
+    // // navigation
+    // handleAdd1() {
+    //     this[NavigationMixin.Navigate]({
+    //         type: 'standard__objectPage',
+    //         attributes: {
+    //             objectApiName: 'Booking__c',
+    //             actionName: 'new'
+    //         }
+    //     });
+    // }
+
     // Boolean to store whether any record was clicked in vertical navigation menu
     isView;
     // Boolean to store whether edit button was clicked or not
@@ -372,26 +383,30 @@ export default class BookingComponentRaj extends LightningElement {
 
     handleEditCancel() {
         // handleEditCancel also handles cancel button press on new record page
-        // handleAdd makes these vars null, if cancelled revert them to original value
-        if (this.selectedRecordIdPrevious) {
-            this.selectedRecordId = this.selectedRecordIdPrevious;
-            this.selectedRecordName = this.selectedRecordNamePrevious;
+        this.selectedRecordId = null;
+        this.selectedRecordName = null;
+        this.isView = false;
+        this.isEdit = false;
+        // // handleAdd makes these vars null, if cancelled revert them to original value
+        // if (this.selectedRecordIdPrevious) {
+        //     this.selectedRecordId = this.selectedRecordIdPrevious;
+        //     this.selectedRecordName = this.selectedRecordNamePrevious;
 
-            // setting state variable, such that conditional rendering displays selectedRecordId
-            this.isView = true;
-            this.isEdit = false;
-        }
-        else if (this.selectedRecordId) {
-            // there is selectedRecordId to display; display no data illustration
-            this.isView = true;
-            this.isEdit = false;
-        }
-        else {
-            // there no selectedRecordId to display; display no data illustration
-            this.isView = false;
-            this.isEdit = false;
+        //     // setting state variable, such that conditional rendering displays selectedRecordId
+        //     this.isView = true;
+        //     this.isEdit = false;
+        // }
+        // else if (this.selectedRecordId) {
+        //     // there is selectedRecordId to display; display no data illustration
+        //     this.isView = true;
+        //     this.isEdit = false;
+        // }
+        // else {
+        //     // there no selectedRecordId to display; display no data illustration
+        //     this.isView = false;
+        //     this.isEdit = false;
 
-        }
+        // }
     }
 
     // handle save
@@ -493,6 +508,11 @@ export default class BookingComponentRaj extends LightningElement {
                 );
             });
 
+    }
+
+    handlePrint() {
+        console.log("inside print");
+        window.open(`https://mirketa-12c-dev-ed.my.salesforce.com/${this.selectedRecordId}/p`, '_blank').focus();
     }
     
     handleDelete() {

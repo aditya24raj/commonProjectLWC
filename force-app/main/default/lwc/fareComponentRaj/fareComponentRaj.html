@@ -22,9 +22,13 @@
             <lightning-button label="New"  onclick={handleAdd}></lightning-button>
             <template if:true={selectedRecordName}>
                 <lightning-button label="Edit"  onclick={handleEdit}></lightning-button>
-                <lightning-button label="Delete"  onclick={handleDelete}></lightning-button>
             </template>
         </lightning-button-group>
+
+        <!--keeping delete button seperate so user doesnot accidently clicks on it-->
+        <template if:true={selectedRecordName}>
+            <lightning-button class="slds-var-m-left_small" slot="actions"  variant="destructive-text" label="Delete"  onclick={handleDelete}></lightning-button>
+        </template>
     </lightning-card>
 
     <!--Body showing records names and its details-->

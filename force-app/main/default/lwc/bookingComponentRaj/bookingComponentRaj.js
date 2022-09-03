@@ -98,10 +98,12 @@ export default class BookingComponentRaj extends LightningElement {
                 // prepare editableOnboardingFrom for combo-box options
                 this.editableOnboardingFrom = [];
                 for (var i=0; i<result.length; i++) {
-                    this.editableOnboardingFrom = [
-                        ...this.editableOnboardingFrom,
-                        {label:result[i].Name, value:result[i].Id}
-                    ];
+                    if (this.selectedArrivingTo != result[i].Id) {
+                        this.editableOnboardingFrom = [
+                            ...this.editableOnboardingFrom,
+                            {label:result[i].Name, value:result[i].Id}
+                        ];
+                    }
                 }
             })
             .catch(error => console.log(error));
@@ -115,6 +117,7 @@ export default class BookingComponentRaj extends LightningElement {
     editableArrivingToOnChange(event) {
         this.selectedArrivingTo = event.target.value;
         console.log("edited arriving to: ",this.selectedArrivingTo);
+        this.populateEditableOnboardingFrom();
         this.populateEditableFlight();
 
     }
@@ -452,7 +455,7 @@ export default class BookingComponentRaj extends LightningElement {
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success',
-                        message: ``,
+                        message: 'Booking Done',
                         variant: 'success'
                     })
                 );

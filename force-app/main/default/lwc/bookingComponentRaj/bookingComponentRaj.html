@@ -6,7 +6,7 @@
             <lightning-icon size="Large" icon-name="standard:asset_warranty"></lightning-icon>
             <h1 class="slds-var-m-left_small">
                 <!--Object Name-->
-                <span style="font-size: large; font-weight: lighter">Confirmed Bookings</span>
+                <span style="font-size: large; font-weight: lighter">Bookings</span>
                 <!--if a record is selected, show that record's name else show 'All'-->
                 <template if:true={selectedRecordName}>
                     <span class="slds-page-header__title slds-truncate" title={selectedRecordName}>{selectedRecordName}</span>
@@ -24,9 +24,13 @@
             <template if:true={selectedRecordName}>
                 <lightning-button label="Edit"  onclick={handleEdit}></lightning-button>
                 <lightning-button label="Print"  onclick={handlePrint}></lightning-button>
-                <lightning-button label="Cancel"  onclick={handleCancelBooking}></lightning-button>
             </template>
         </lightning-button-group>
+
+        <!--keeping cancel booking seperate so user doesnot accidently clicks on it-->
+        <template if:true={selectedRecordName}>
+            <lightning-button class="slds-var-m-left_small" slot="actions"  variant="destructive-text" label="Cancel Booking"  onclick={handleCancelBooking}></lightning-button>
+        </template>
     </lightning-card>
 
     <!--Body showing records names and its details-->
@@ -145,11 +149,11 @@
                             <hr style="margin-top:auto">
 
                             <!--invisible block-->
-                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small" style="color:white">Invisible</div>
-                            <div class="slds-truncate slds-var-m-bottom_x-small" style="color:white">
+                            <div class="slds-text-title slds-truncate slds-var-m-bottom_xxx-small" style="visibility: hidden">Invisible</div>
+                            <div class="slds-truncate slds-var-m-bottom_x-small" style="visibility: hidden">
                                 Invisible
                             </div>
-                            <hr style="margin-top:auto; background-color:white; border-color: white;">
+                            <hr style="margin-top:auto; visibility: hidden">
                             
 
                             <!--Passenger Email-->
@@ -269,7 +273,7 @@
                             ></lightning-combobox>
 
                             <!--Invisible block-->
-                            <div class="myInputField" style="color:White">Invisible</div>
+                            <div class="myInputField" style="visibility: hidden">Invisible</div>
 
                             <!--Passenger Email-->
                             <lightning-input class="myInputField"  type="email" label="Passenger Email" value={editablePassengerEmail} onchange={editablePassengerEmailOnChange} required></lightning-input>

@@ -2,7 +2,7 @@ public with sharing class FareControllerRaj {
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> fetchAllRecords(){
         try {
-            List<Fare__c> myFares = [SELECT Name, Flight__r.Name, Passenger_Type__c FROM Fare__c];
+            List<Fare__c> myFares = [SELECT Name, Flight__r.Name, Passenger_Type__c FROM Fare__c ORDER BY Flight__r.Name];
 
             
             List<Map<String, String>> myFareLabelMapList = new List<Map<String, String>>();
